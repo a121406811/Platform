@@ -3,31 +3,54 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
+
+    <!--父项目的坐标，坐标包括group ID，artifact ID和version。 -->
+    <!--如果项目中没有规定某个元素的值，那么父项目中的对应值即为项目的默认值 -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.4.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
+
+    <!-- 公司或者组织的唯一标志，并且配置时生成的路径也是由此生成， 如com.winner.trade，maven会将该项目打成的jar包放本地路径：/com/winner/trade -->
     <groupId>org.example</groupId>
+
+    <!-- 本项目的唯一ID，一个groupId下面可能多个项目，就是靠artifactId来区分的 -->
     <artifactId>Platform</artifactId>
+
+    <!-- 本项目目前所处的版本号 -->
     <version>1.0-SNAPSHOT</version>
 
+    <!-- 打包的机制，如pom,jar, maven-plugin, ejb, war, ear, rar, par，默认为jar -->
+    <packaging>pom</packaging>
+
+    <!-- 该标签用于定义pom文件中的常量，这样，在pom文件的任何地方，都可以通过${java.version}来引用该值； -->
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>2020.0.0-SNAPSHOT</spring-cloud.version>
     </properties>
+
+    <!-- 用于指定当前项目所包含的模块 -->
     <modules>
         <module>eureka</module>
         <module>api</module>
     </modules>
+
+    <!-- 定义本项目的依赖关系 -->
     <dependencies>
+        <!-- 每个dependency都对应这一个jar包 -->
         <dependency>
+            <!--一般情况下，maven是通过groupId、artifactId、version这三个元素值（俗称坐标）来检索该构件， 然后引入你的工程。如果别人想引用你现在开发的这个项目（前提是已开发完毕并发布到了远程仓库），-->
+            <!--就需要在他的pom文件中新建一个dependency节点，将本项目的groupId、artifactId、version写入， maven就会把你上传的jar包下载到他的本地 -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+
+            <!-- maven认为，程序对外部的依赖会随着程序的所处阶段和应用场景而变化，所以maven中的依赖关系有作用域(scope)的限制。 -->
+            <!--scope包含如下的取值：compile（编译范围）、provided（已提供范围）、runtime（运行时范围）、test（测试范围）、system（系统范围） -->
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -40,6 +63,8 @@
         </dependency>
     </dependencies>
 
+    <!-- 父项目的pom中可以定义 dependencyManagement 节点，其中存放依赖关系，但是这个依赖关系只是定义，不会真的产生效果，如果子项目想要使用这个依赖关系，可以在本身的 dependency 中添加一个简化的引用-->
+    <!-- 它的children就可以只引用 groupId和artifactId，而version就可以直接使用父模块的，如果有需要，我们也可以设置version -->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -52,7 +77,9 @@
         </dependencies>
     </dependencyManagement>
 
+    <!--构建配置  -->
     <build>
+        <!--使用的插件列表 。 -->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -61,10 +88,15 @@
         </plugins>
     </build>
 
+    <!--发现依赖和扩展的远程仓库列表。 -->
     <repositories>
+        <!--包含需要连接到远程仓库的信息 -->
         <repository>
+            <!--远程仓库唯一标识符。可以用来匹配在settings.xml文件里配置的远程仓库 -->
             <id>spring-snapshots</id>
+            <!--远程仓库名称 -->
             <name>Spring Snapshots</name>
+            <!--远程仓库URL，按protocol://hostname/path形式 -->
             <url>https://repo.spring.io/snapshot</url>
             <snapshots>
                 <enabled>true</enabled>
@@ -76,6 +108,8 @@
             <url>https://repo.spring.io/milestone</url>
         </repository>
     </repositories>
+
+
 
 
 </project>
