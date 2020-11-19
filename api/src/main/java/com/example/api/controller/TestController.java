@@ -1,10 +1,9 @@
 package com.example.api.controller;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Api(tags = "用户管理相关接口")
 //@RestController
@@ -24,5 +23,10 @@ public class TestController {
         return "hello";
     }
 
+    @GetMapping(value = "/liangpan/hello")
+    @ResponseBody
+    public String liangpan(){
+        return "liangpan";
+    }
 
 }
